@@ -4,7 +4,7 @@ module.exports = {
   // 运行测试前, 使用polyfill对jsdom做补偿, 解决测试过程中兼容性问题
   setupFiles: ["react-app-polyfill/jsdom"],
   // 当测试环境建立好之后, 做一些其他的事情可以在这个配置下添加文件名, 执行这些文件的内容
-  setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ["./node_modules/jest-enzyme/lib/index.js"],
   // 当执行npm run test的时候执行一些测试文件的类型
   testMatch: [
     "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
