@@ -114,12 +114,16 @@ describe("TodoList 组件", () => {
     });
   });
 
-  it("changeValue 方法被调用, undoList 数据项 value 被修改", () => {
+  it("valueChange 方法被调用, undoList 数据项 value 被修改", () => {
     const wrapper = shallow(<TodoList />);
     const data = [
       {
         status: "input",
         value: "jest",
+      },
+      {
+        status: "div",
+        value: "开心",
       },
     ];
     const value = "ahaha";
