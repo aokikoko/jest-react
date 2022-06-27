@@ -1,9 +1,8 @@
 import React from "react";
-import Enzyme, { shallow } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import Header from "../../components/Header";
+import { shallow } from "enzyme";
 
-Enzyme.configure({ adapter: new Adapter() });
+import Header from "../../components/Header";
+import { findTestWrapper } from "../../../../utils/testUtils";
 
 // 快照
 it("Header 渲染样式正常", () => {
@@ -11,23 +10,22 @@ it("Header 渲染样式正常", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-
 it("Header 组件包含一个 input框", () => {
   const wrapper = shallow(<Header />);
-  const inputElem = wrapper.find("[data-test='input']");
+  const inputElem = findTestWrapper(wrapper, "input");
   expect(inputElem.length).toBe(1);
 });
 
 // 受控input框
 it("Header 组件input框内容, 初始化应该为空", () => {
   const wrapper = shallow(<Header />);
-  const inputElem = wrapper.find("[data-test='input']");
+  const inputElem = findTestWrapper(wrapper, "input");
   expect(inputElem.prop("value")).toEqual("");
 });
 
 it("Header 组件input框内容, 当用户输入时, 会跟随变化", () => {
   const wrapper = shallow(<Header />);
-  const inputElem = wrapper.find("[data-test='input']");
+  const inputElem = findTestWrapper(wrapper, "input");
   const userInput = "啊哈";
   inputElem.simulate("change", {
     target: {
@@ -42,7 +40,7 @@ it("Header 组件input框内容, 当用户输入时, 会跟随变化", () => {
 it("Header 组件input框点击回车时, 如果input无内容, 无操作", () => {
   const fn = jest.fn();
   const wrapper = shallow(<Header addUndoItem={fn} />);
-  const inputElem = wrapper.find("[data-test='input']");
+  const inputElem = findTestWrapper(wrapper, "input");
   wrapper.setState({ value: "" });
   inputElem.simulate("keyup", {
     keyCode: 13,
@@ -53,7 +51,7 @@ it("Header 组件input框点击回车时, 如果input无内容, 无操作", () =
 it("Header 组件input框点击回车时, 如果input有内容, 函数应该被调用", () => {
   const fn = jest.fn();
   const wrapper = shallow(<Header addUndoItem={fn} />);
-  const inputElem = wrapper.find("[data-test='input']");
+  const inputElem = findTestWrapper(wrapper, "input");
   const userInput = "react";
   wrapper.setState({ value: userInput });
   inputElem.simulate("keyup", {
@@ -66,12 +64,12 @@ it("Header 组件input框点击回车时, 如果input有内容, 函数应该被�
 it("Header 组件input框点击回车时, 如果input有内容, 最后应该清除掉", () => {
   const fn = jest.fn();
   const wrapper = shallow(<Header addUndoItem={fn} />);
-  const inputElem = wrapper.find("[data-test='input']");
+  const inputElem = findTestWrapper(wrapper, "input");
   const userInput = "react";
   wrapper.setState({ value: userInput });
   inputElem.simulate("keyup", {
     keyCode: 13,
   });
-  const newInputElem = wrapper.find("[data-test='input']");
+  const newInputElem = findTestWrapper(wrapper, "input");
   expect(newInputElem.prop("value")).toBe("");
 });
